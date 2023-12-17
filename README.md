@@ -1,6 +1,6 @@
-# OpenAnimationReplacer-ExamplePlugin
+# OpenAnimationReplacer-DialoguePlugin
 
-This is a SKSE64 plugin example utilizing Open Animation Replacer's API to add a new custom condition.
+This is a SKSE64 plugin adding dialogue conditions to Open Animation Replacer using its API.
 
 ### Requirements
 * [XMake](https://xmake.io) [2.7.8+]
@@ -8,8 +8,8 @@ This is a SKSE64 plugin example utilizing Open Animation Replacer's API to add a
 
 ## Getting Started
 ```bat
-git clone git@github.com:matiasmakipelto/OpenAnimationReplacer-DetectionConditions.git
-cd OpenAnimationReplacer-DetectionConditions
+git clone git@github.com:matiasmakipelto/OpenAnimationReplacer-DialogueConditions.git
+cd OpenAnimationReplacer-DialogueConditions
 ```
 
 ### Build
