@@ -30,6 +30,7 @@ namespace Conditions
 		IBoolConditionComponent* dialogueEnded = static_cast<IBoolConditionComponent*>(AddBaseComponent(
 			ConditionComponentType::kBool,
 			"Trigger when dialogue ends."));
+
 	protected:
 		bool EvaluateImpl(RE::TESObjectREFR* a_refr, RE::hkbClipGenerator* a_clipGenerator) const override;
 
