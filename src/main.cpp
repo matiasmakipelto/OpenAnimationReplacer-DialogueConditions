@@ -1,35 +1,4 @@
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/sinks/msvc_sink.h>
-
 #include "Conditions.h"
-
-void InitLogging()
-{
-	auto path = logs::log_directory();
-	if (!path)
-		return;
-
-	const auto plugin = SKSE::PluginDeclaration::GetSingleton();
-	*path /= fmt::format("{}.log", plugin->GetName());
-
-	std::vector<spdlog::sink_ptr> sinks{
-		std::make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true),
-		std::make_shared<spdlog::sinks::msvc_sink_mt>()
-	};
-
-#ifndef NDEBUG
-	const auto level = spdlog::level::trace;
-#else
-	const auto level = spdlog::level::info;
-#endif
-
-	auto logger = std::make_shared<spdlog::logger>("global", sinks.begin(), sinks.end());
-	logger->set_level(level);
-	logger->flush_on(level);
-
-	spdlog::set_default_logger(std::move(logger));
-	spdlog::set_pattern("[%^%L%$] %v");
-}
 
 template <typename T>
 void RegisterCondition()
@@ -55,13 +24,12 @@ void RegisterCondition()
 
 void InitMessaging()
 {
-	logs::trace("Initializing messaging listener...");
 	const auto intfc = SKSE::GetMessagingInterface();
 	if (!intfc->RegisterListener([](SKSE::MessagingInterface::Message* a_msg)
 	{
 		if (a_msg->type == SKSE::MessagingInterface::kPostLoad)
 		{
-			OAR_API::Conditions::GetAPI(OAR_API::Conditions::InterfaceVersion::V2);
+			OAR_API::Conditions::GetAPI(OAR_API::Conditions::InterfaceVersion::Latest);
 			if (g_oarConditionsInterface)
 			{
 				RegisterCondition<Conditions::DialogueCondition>();
@@ -79,15 +47,8 @@ void InitMessaging()
 
 SKSEPluginLoad(const SKSE::LoadInterface* a_skse)
 {
-	InitLogging();
-
-	const auto plugin = SKSE::PluginDeclaration::GetSingleton();
-	logs::info("{} v{} is loading...", plugin->GetName(), plugin->GetVersion());
-
 	SKSE::Init(a_skse);
 	InitMessaging();
-
-	logs::info("{} loaded.", plugin->GetName());
-
+	logs::info("{} loaded.", SKSE::PluginDeclaration::GetSingleton()->GetName());
 	return true;
 }

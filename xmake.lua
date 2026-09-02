@@ -1,13 +1,16 @@
+-- add includes
+includes("lib/commonlibsse-ng")
+
 -- set minimum xmake version
-set_xmakever("2.7.8")
+set_xmakever("3.0.0")
 
 -- set project
 set_project("OpenAnimationReplacer-DialoguePlugin")
-set_version("1.0.0")
+set_version("1.1.0")
 set_license("gplv3")
-set_languages("c++20")
+set_languages("c++23")
 set_optimize("faster")
-set_warnings("allextra", "error")
+set_warnings("allextra")
 
 -- set allowed
 set_allowedarchs("windows|x64")
@@ -21,19 +24,10 @@ set_defaultmode("releasedbg")
 add_rules("mode.debug", "mode.releasedbg")
 add_rules("plugin.vsxmake.autoupdate")
 
--- set policies
-set_policy("package.requires_lock", true)
-
--- require packages
-add_requires("commonlibsse-ng", { configs = { skyrim_vr = true } })
-
 -- targets
 target("OpenAnimationReplacer-DialoguePlugin")
-    -- add packages to target
-    add_packages("fmt", "spdlog", "commonlibsse-ng")
-
     -- add commonlibsse-ng plugin
-    add_rules("@commonlibsse-ng/plugin", {
+    add_rules("commonlibsse-ng.plugin", {
         name = "OpenAnimationReplacer-DialoguePlugin",
         author = "Nonameron",
         description = "SKSE64 plugin adding dialogue conditions to OpenAnimationReplacer's API"

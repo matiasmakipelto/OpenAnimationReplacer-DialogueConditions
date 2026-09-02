@@ -3,22 +3,15 @@
 
 namespace Conditions
 {
-	void DialogueCondition::PostInitialize()
-	{
-		CustomCondition::PostInitialize();
-		dialogueIsActive = false;
-		playersChoice = false;
-	}
-
 	bool DialogueCondition::EvaluateImpl([[maybe_unused]] RE::TESObjectREFR* a_refr,
-		[[maybe_unused]] RE::hkbClipGenerator* a_clipGenerator) const
+		[[maybe_unused]] RE::hkbClipGenerator* a_clipGenerator,
+		[[maybe_unused]] void* a_subMod) const
 	{
 		RE::UI* ui = RE::UI::GetSingleton();
-		RE::BSString dialogue = RE::BSString("Dialogue Menu");
 
 		bool result = false;
 
-		if (ui && ui->IsMenuOpen(dialogue)) {
+		if (ui && ui->IsMenuOpen(RE::DialogueMenu::MENU_NAME)) {
 			// Dialogue is active
 			result |= dialogueActive->GetBoolValue();
 

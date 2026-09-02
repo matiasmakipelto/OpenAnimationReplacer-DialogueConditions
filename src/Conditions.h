@@ -13,8 +13,6 @@ namespace Conditions
 		RE::BSString GetDescription() const override { return "Checks if various aspects related to dialogue are true."sv.data(); }
 		constexpr REL::Version GetRequiredVersion() const override { return { 1, 0, 0 }; }
 
-		void PostInitialize() override;
-
 		IBoolConditionComponent* dialogueActive = static_cast<IBoolConditionComponent*>(AddBaseComponent(
 			ConditionComponentType::kBool,
 			"Trigger whenever dialogue is active."));
@@ -31,10 +29,10 @@ namespace Conditions
 			ConditionComponentType::kBool,
 			"Trigger when dialogue ends."));
 	protected:
-		bool EvaluateImpl(RE::TESObjectREFR* a_refr, RE::hkbClipGenerator* a_clipGenerator) const override;
+		bool EvaluateImpl(RE::TESObjectREFR* a_refr, RE::hkbClipGenerator* a_clipGenerator, void* a_subMod) const override;
 
 	private:
-		mutable bool dialogueIsActive;
-		mutable bool playersChoice;
+		mutable bool dialogueIsActive = false;
+		mutable bool playersChoice = false;
 	};
 }
